@@ -1,1 +1,83 @@
-/* You can add global styles to this file, and also import other style files */
+/* src/styles.scss */
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap'); // Alternativa a ponerlo en index.html
+
+/* Reset básico y estilos globales */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  width: 100%;
+  background: linear-gradient(135deg, #0691e7, #0c0847);
+  font-family: 'Poppins', sans-serif;
+}
+
+body {
+  // EJEMPLO: Usando la fuente 'Lato' que importamos en index.html
+  font-family: 'Lato', sans-serif; // 'sans-serif' es un fallback
+  line-height: 1.6;
+  background-color: #f4f4f4;
+  color: #333;
+  margin: 0;
+  -webkit-font-smoothing: antialiased; // Mejora el renderizado de fuentes en algunos navegadores
+  -moz-osx-font-smoothing: grayscale; // Mejora el renderizado de fuentes en Firefox en macOS
+}
+
+.container { // Una clase de utilidad para centrar contenido
+  max-width: 1100px;
+  margin: auto;
+  overflow: auto;
+  padding: 0 20px;
+}
+
+a {
+  color: #337ab7; // Un color de enlace estándar
+  text-decoration: none;
+  &:hover {
+    color: #23527c;
+    text-decoration: underline;
+  }
+}
+
+// Estilos para botones (puedes expandir esto)
+button, .btn {
+  display: inline-block;
+  background: #337ab7;
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+  font-size: 1rem;
+  transition: background-color 0.3s ease;
+
+  &:hover {
+    background: #286090;
+  }
+
+  &:disabled {
+    background: #ccc;
+    cursor: not-allowed;
+  }
+}
+
+input[type='text'],
+input[type='email'],
+input[type='password'],
+input[type='number'],
+textarea {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 1rem;
+}
+
+// ... más estilos globales que quieras ...
