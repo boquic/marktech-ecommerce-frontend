@@ -1,0 +1,574 @@
+/* src/app/app.component.scss */
+
+// Variables de Color (ajusta a tu paleta de marca)
+$header-bg: #232f3e; // Azul oscuro/grisáceo (como Amazon/Ripley)
+$header-text-color: #ffffff;
+$header-text-secondary-color: #cccccc;
+$header-link-hover-bg: #37475a;
+$header-active-link-bg: #007bff; // Un azul para enlaces activos
+$search-input-bg: #ffffff;
+$search-input-text-color: #333333;
+$search-button-bg: #febd69; // Naranja/amarillo para el botón de búsqueda
+$search-button-hover-bg: #f3a847;
+$search-button-icon-color: #111921;
+$footer-bg: #131a22; // Un poco más oscuro que el header para el footer
+$footer-text-color: #dddddd;
+
+// Fuente Principal (asegúrate de importarla en styles.scss o index.html)
+$font-family-base: 'Lato', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+
+// Mixin para Flexbox (opcional, para reutilizar)
+@mixin flex-center($justify-content: center, $align-items: center) {
+  display: flex;
+  justify-content: $justify-content;
+  align-items: $align-items;
+}
+
+// Estilos Base para la Aplicación (pueden estar en styles.scss también)
+:host {
+  display: block; // app-root es un elemento de bloque
+  font-family: $font-family-base;
+}
+
+// Estilos Generales del Header
+.main-header {
+  background-color: $header-bg;
+  color: $header-text-color;
+  position: sticky;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000; // Para que esté sobre otros elementos
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+  font-size: 14px; // Tamaño de fuente base para el header
+}
+
+// Contenedor principal dentro de las barras del header
+.container {
+  max-width: 1280px; // Ancho máximo del contenido del header
+  margin: 0 auto;
+  padding: 0 15px;
+}
+
+// Layout de la barra media del header
+.header-layout {
+  @include flex-center(space-between, center);
+  min-height: 60px; // Altura para la barra principal del header
+  padding: 8px 0;
+}
+
+// Sección Izquierda: Logo y Menú
+.header-left {
+  @include flex-center(flex-start, center);
+  gap: 15px;
+
+  .menu-button {
+    background: none;
+    border: none;
+    color: $header-text-color;
+    cursor: pointer;
+    padding: 8px;
+    border-radius: 4px;
+    @include flex-center(center, center);
+    gap: 6px;
+    font-size: 0.9em;
+
+    &:hover {
+      background-color: $header-link-hover-bg;
+    }
+
+    .hamburger-icon {
+      font-size: 1.5em; // Tamaño del ícono hamburguesa
+      line-height: 1;
+    }
+  }
+
+  .logo-link {
+    display: block; // O inline-block
+    .logo-image {
+      height: 35px; // Ajusta al tamaño de tu logo
+      width: auto;
+      vertical-align: middle;
+    }
+  }
+
+  .store-name-main { // Si decides usarlo
+    font-size: 1.4rem;
+    font-weight: bold;
+    margin-left: 10px;
+  }
+}
+
+// Sección de Ubicación
+.location-section {
+  @include flex-center(flex-start, center);
+  gap: 6px;
+  padding: 8px 10px;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-left: 15px; // Espacio desde la izquierda
+
+  &:hover {
+    border-color: rgba($header-text-color, 0.7);
+  }
+
+  .location-icon {
+    font-size: 1.3em;
+  }
+  .location-text {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.2;
+    font-size: 0.8em;
+    span:first-child {
+      color: $header-text-secondary-color;
+    }
+    span:last-child {
+      font-weight: 500;
+    }
+  }
+}
+
+// Barra de Búsqueda Central
+.search-container {
+  flex-grow: 1;
+  max-width: 600px;
+  margin: 0 20px; // Espacio a los lados
+  display: flex;
+
+  .search-input {
+    flex-grow: 1;
+    padding: 10px 15px;
+    border: none;
+    border-top-left-radius: 4px;
+    border-bottom-left-radius: 4px;
+    font-size: 0.95rem;
+    color: $search-input-text-color;
+    background-color: $search-input-bg;
+
+    &:focus {
+      outline: none;
+      box-shadow: 0 0 0 2px rgba($search-button-bg, 0.5); // Sutil outline al enfocar
+    }
+  }
+
+  .search-button {
+    background-color: $search-button-bg;
+    border: none;
+    padding: 0 15px;
+    cursor: pointer;
+    border-top-right-radius: 4px;
+    border-bottom-right-radius: 4px;
+    @include flex-center();
+
+    .search-icon {
+      font-size: 1.3em;
+      color: $search-button-icon-color;
+    }
+
+    &:hover {
+      background-color: $search-button-hover-bg;
+    }
+  }
+}
+
+// Sección Derecha: Acciones de Usuario y Carrito
+.header-right {
+  @include flex-center(flex-end, center);
+
+  .user-actions-nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    @include flex-center(flex-end, center);
+    gap: 15px; // Espacio entre "Login/Usuario" y "Carrito"
+
+    li {
+      a, .user-account-link {
+        color: $header-text-color;
+        text-decoration: none;
+        @include flex-center(flex-start, center);
+        padding: 8px;
+        border-radius: 4px;
+        transition: background-color 0.2s ease;
+
+        &:hover {
+          background-color: $header-link-hover-bg;
+        }
+      }
+
+      .icon-user, .icon-cart, .icon-logout {
+        font-size: 1.6em; // Tamaño de iconos
+        line-height: 1;
+      }
+
+      .user-info-text, .login-text-group {
+        display: flex;
+        flex-direction: column;
+        margin-left: 8px;
+        font-size: 0.8em;
+        line-height: 1.2;
+
+        span:first-child {
+          color: $header-text-secondary-color;
+        }
+        .account-link-text, .login-action-text {
+          font-weight: 500;
+          font-size: 0.9em;
+        }
+      }
+
+      .logout-button-header {
+        background: none;
+        border: none;
+        color: $header-text-color;
+        cursor: pointer;
+        padding: 8px;
+        margin-left: 5px; // Espacio si está junto a "Mi Cuenta"
+        border-radius: 4px;
+        &:hover {
+          background-color: $header-link-hover-bg;
+        }
+      }
+
+      .cart-count {
+        background-color: $search-button-bg;
+        color: $search-button-icon-color;
+        border-radius: 50%;
+        padding: 1px 5px;
+        font-size: 0.7em;
+        font-weight: bold;
+        position: relative;
+        top: -8px;  // Ajusta para la posición del contador
+        left: -5px; // Ajusta para la posición del contador
+        min-width: 16px;
+        text-align: center;
+      }
+    }
+  }
+}
+.main-content-wrapper {
+  &.full-page {
+    // Estilos para cuando el header/footer están ocultos (ej. página de login)
+    // Esto asegura que el :host del login.component (con su fondo degradado)
+    // pueda ocupar toda la altura.
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; // Ocupar toda la altura de la ventana
+  }
+  .container {
+    flex-grow: 1; // Para que el contenido dentro del container pueda crecer
+    &.no-container-padding {
+      padding-left: 0;
+      padding-right: 0;
+      max-width: none; // Permitir que el contenido del login ocupe todo el ancho si es necesario
+    }
+  }
+}
+
+// Ajuste para el min-height de .main-content si el header y footer son visibles
+// (esto ya lo tenías, asegúrate que las alturas sean correctas)
+.main-content { // Esta clase sigue aplicando al div interno .container
+  padding-top: 20px;
+  padding-bottom: 20px; // Ajusta si el footer no es fijo
+}
+
+// Si el header NO es sticky y el footer tampoco, el min-height se calcula diferente:
+// main:not(.full-page) .container {
+//   min-height: calc(100vh - alturaHeaderEstimada - alturaFooterEstimada);
+// }
+
+// Barra de Navegación Secundaria (para categorías)
+.secondary-navigation {
+  background-color: darken($header-bg, 5%); // Ligeramente más oscuro que el header principal
+  padding: 8px 0;
+  border-top: 1px solid mix(black, $header-bg, 10%);
+    ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    @include flex-center(center, center); // Centrar los enlaces de categoría
+    gap: 20px;
+
+    li a {
+      color: $header-text-secondary-color;
+      text-decoration: none;
+      font-size: 0.9em;
+      padding: 5px 10px;
+      border-radius: 3px;
+
+      &:hover, &.active-link {
+        color: $header-text-color;
+        background-color: $header-link-hover-bg;
+      }
+    }
+  }
+}
+.main-header {
+  // ... (otros estilos del header) ...
+
+  .header-right {
+    .user-actions-nav ul {
+      // ... (otros estilos de la lista) ...
+
+      li {
+        // ... (otros estilos de li) ...
+
+        &.user-account-item { // Esta es la clase .dropdown-container
+          position: relative; /* MUY IMPORTANTE: El menú absoluto se posicionará relativo a este elemento */
+
+          .user-dropdown-menu {
+            position: absolute;
+            /* Para desplegar hacia abajo y alineado a la izquierda del botón: */
+            top: 100%; /* Comienza justo debajo del elemento padre (.user-account-item o el botón si este fuera el padre posicionado) */
+            left: 0;   /* Alinea el borde izquierdo del menú con el borde izquierdo del .user-account-item */
+            /* right: auto; */ /* Asegúrate de que 'right' no esté interfiriendo si usas 'left: 0' */
+
+            /* Opcional: Si quieres que se alinee al borde derecho del botón (más común si el botón está a la derecha): */
+            /* right: 0; */   /* Alinea el borde derecho del menú con el borde derecho del .user-account-item */
+            /* left: auto; */ /* Asegúrate de que 'left' no esté interfiriendo */
+
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            min-width: 220px; // Dale un ancho mínimo para que no se colapse
+            z-index: 1010; // Asegura que esté por encima de otros elementos
+            list-style: none;
+            padding: 8px 0;
+            margin-top: 5px; // Pequeño espacio entre el botón y el menú
+
+            // Para asegurar que el contenido no lo haga expandirse horizontalmente innecesariamente:
+            // Esto puede ser necesario si tienes texto muy largo en los items del menú
+            // que no quieres que se rompa (aunque white-space: nowrap en los items ya ayuda).
+            // Si el menú se va muy a la derecha, es porque su contenido lo empuja.
+            // El min-width define el mínimo, pero el contenido puede hacerlo más ancho.
+
+            ul {
+              list-style: none;
+              padding: 0;
+              margin: 0;
+            }
+
+            li {
+              a, .dropdown-logout-button {
+                display: flex;
+                align-items: center;
+                gap: 10px;
+                padding: 10px 20px;
+                color: #333;
+                text-decoration: none;
+                font-size: 0.9rem;
+                white-space: nowrap; // Importante para que el texto no rompa línea y expanda el menú innecesariamente
+
+                &:hover {
+                  background-color: #f5f5f5;
+                }
+              }
+              // ... (otros estilos de li del dropdown) ...
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+// Menú Móvil
+.mobile-menu {
+  position: fixed;
+  top: 0;
+  left: -300px; // Comienza fuera de la pantalla
+  width: 300px; // Ancho del menú móvil
+  height: 100vh;
+  background-color: #2c3e50; // Un color oscuro para el menú
+  color: $header-text-color;
+  padding: 20px;
+  box-shadow: 2px 0 5px rgba(0,0,0,0.2);
+  transition: left 0.3s ease-in-out;
+  z-index: 1100; // Por encima del header fijo
+  overflow-y: auto;
+
+  &.open {
+    left: 0; // Se desliza a la vista
+  }
+
+  .close-mobile-menu {
+    background: none;
+    border: none;
+    color: $header-text-color;
+    font-size: 2rem;
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    cursor: pointer;
+  }
+
+  ul {
+    list-style: none;
+    padding: 0;
+    margin-top: 40px; // Espacio para el botón de cerrar
+
+    li {
+      margin-bottom: 5px;
+      a, .logout-link-mobile {
+        display: block;
+        padding: 12px 15px;
+        color: $header-text-secondary-color;
+        text-decoration: none;
+        border-radius: 4px;
+        font-size: 1rem;
+        transition: background-color 0.2s ease;
+
+        &:hover, &.active-link {
+          background-color: $header-link-hover-bg;
+          color: $header-text-color;
+        }
+      }
+      .logout-link-mobile {
+        cursor: pointer;
+      }
+      hr {
+        border: none;
+        border-top: 1px solid #444;
+        margin: 15px 0;
+      }
+    }
+  }
+}
+
+
+// Contenido Principal y Footer (mantener los estilos que ya tenías o ajustarlos)
+.main-content {
+  padding-top: 20px; // Espacio debajo del header
+  padding-bottom: 20px;
+  min-height: calc(100vh - 120px - 70px); // Ajusta alturaHeader + alturaSecondaryNav + alturaFooter
+}
+/* En app.component.scss o styles.scss */
+.material-symbols-outlined {
+  font-family: 'Material Symbols Outlined';
+  font-weight: normal;
+  font-style: normal;
+  font-size: 24px;  /* Tamaño por defecto */
+  line-height: 1;
+  letter-spacing: normal;
+  text-transform: none;
+  display: inline-block;
+  white-space: nowrap;
+  word-wrap: normal;
+  direction: ltr;
+  font-feature-settings: 'liga';
+  -webkit-font-feature-settings: 'liga';
+  -webkit-font-smoothing: antialiased;
+}
+
+// Luego, usa selectores descendentes para ajustar el tamaño en tu header:
+.main-header {
+  .icon-user, .icon-cart, .icon-logout {
+    font-size: 1.6em; // Sobrescribe el tamaño por defecto si es necesario
+  }
+  .hamburger-icon {
+     font-size: 1.5em;
+  }
+  .search-icon {
+     font-size: 1.3em;
+  }
+  .location-icon {
+     font-size: 1.3em; // Tamaño similar a search
+  }
+   .dropdown-arrow {
+     font-size: 0.9em; // Flecha más pequeña
+   }
+   .user-dropdown-menu {
+     .icon-dropdown {
+        font-size: 1.1em; // Tamaño para iconos del dropdown
+        width: 20px; // Fijo para alineación
+        text-align: center;
+     }
+   }
+}
+.main-footer {
+  background: $footer-bg;
+  color: $footer-text-color;
+  text-align: center;
+  padding: 1.5rem 0;
+}
+.main-header {
+  // ... (estilos de .main-header, .container, .header-left, .search-container) ...
+
+  .header-right {
+    .user-actions-nav ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      align-items: center; // Clave para la alineación vertical de los <li>
+      gap: 10px; // Espacio entre los items principales: (Saludo/Login), Logout, Carrito
+
+      li { // Estilo base para todos los items de la lista
+        display: flex; // Para alinear iconos y texto dentro de cada <li> si es necesario
+        align-items: center;
+
+        a, .user-account-link, .login-prompt-link, .cart-link, .logout-button-header {
+          color: $header-text-color;
+          text-decoration: none;
+          display: flex;
+          align-items: center;
+          padding: 8px; // Padding consistente
+          border-radius: 4px;
+          transition: background-color 0.2s ease;
+
+          &:hover {
+            background-color: $header-link-hover-bg;
+          }
+        }
+
+        .icon-user, .icon-cart, .icon-logout {
+          font-size: 1.6em; // Tamaño de iconos
+          line-height: 1;
+        }
+
+        // Estilos para el saludo y "Mi Cuenta" o "Inicia Sesión"
+        .user-info-text, .login-text-group {
+          display: flex;
+          flex-direction: column;
+          margin-left: 8px;
+          font-size: 0.8em;
+          line-height: 1.2;
+
+          span:first-child {
+            color: $header-text-secondary-color;
+          }
+          .account-link-text, .login-action-text {
+            font-weight: 500;
+            font-size: 0.9em;
+          }
+        }
+
+
+        .logout-button-header {
+          background: none; // Hacerlo parecer más un enlace de icono si se prefiere
+          border: none;
+          cursor: pointer;
+          // Si quieres que se vea más como los otros enlaces:
+          // padding: 8px; // Ya está en el estilo general de 'a, button...'
+          
+          .logout-text-optional {
+            margin-left: 5px; // Espacio entre icono y texto de logout
+            font-size: 0.85em;
+            font-weight: 500; // Igual que otros textos de acción
+          }
+        }
+
+        // Estilos para el carrito
+        &.cart-item {
+          .cart-count {
+            // ... (tus estilos para cart-count) ...
+            margin-left: -5px; // Ajustar para superponer un poco si es necesario
+          }
+        }
+      }
+    }
+  }
+}

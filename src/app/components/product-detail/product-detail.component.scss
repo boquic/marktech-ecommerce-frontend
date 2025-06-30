@@ -1,0 +1,118 @@
+/* src/app/components/product-detail/product-detail.component.scss */
+.product-detail-container {
+    padding-top: 20px;
+  }
+  
+  .breadcrumb {
+    margin-bottom: 1.5rem;
+    font-size: 0.9rem;
+    color: #555;
+    a {
+      font-family: 'Lato', sans-serif; // 'sans-serif' es un fallback
+
+      color: #ffffff;
+      text-decoration: none;
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+    span {
+      color: #00c3ff;
+      font-weight: 500;
+    }
+  }
+  
+  .product-layout {
+    display: grid;
+    grid-template-columns: 1fr; /* Por defecto una columna para móviles */
+    gap: 30px;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.07);
+  
+    @media (min-width: 768px) { /* Dos columnas para tablets y más grandes */
+      grid-template-columns: 1fr 1.5fr;
+    }
+  }
+  
+  .product-image-section {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start; // Para que no se estire si la imagen es pequeña
+  }
+  
+  .main-product-image {
+    max-width: 100%;
+    height: auto;
+    max-height: 400px; // Límite de altura
+    border-radius: 8px;
+    border: 1px solid #eee;
+  }
+  
+  .main-product-image-placeholder {
+    width: 100%;
+    min-height: 300px; // Para darle algo de tamaño
+    background-color: #f0f0f0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #aaa;
+    font-style: italic;
+    border-radius: 8px;
+  }
+  
+  .product-info-section {
+    h1 {
+      font-size: 2rem;
+      margin-bottom: 0.5rem;
+      color: #333;
+    }
+  
+    .product-sku {
+      font-size: 0.9rem;
+      color: #777;
+      margin-bottom: 1rem;
+    }
+  
+    .product-price {
+      font-size: 1.8rem;
+      font-weight: bold;
+      color: #007bff;
+      margin-bottom: 1.5rem;
+    }
+  
+    .product-description-full, .product-attributes {
+      margin-bottom: 1.5rem;
+      h3 {
+        font-size: 1.1rem;
+        margin-bottom: 0.5rem;
+        color: #444;
+        border-bottom: 1px solid #eee;
+        padding-bottom: 0.3rem;
+      }
+      p, ul {
+        font-size: 0.95rem;
+        color: #555;
+        line-height: 1.7;
+      }
+      ul {
+        list-style-position: inside;
+        padding-left: 0;
+        li {
+          margin-bottom: 0.3rem;
+        }
+      }
+    }
+    .product-actions {
+      margin-top: 1rem;
+    }
+  }
+  
+  .error-message-container, .loading-message-container {
+    text-align: center;
+    padding: 3rem 1rem;
+    h2 {
+      margin-bottom: 1rem;
+    }
+  }

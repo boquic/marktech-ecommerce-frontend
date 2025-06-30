@@ -1,0 +1,62 @@
+
+:host { // Para que ocupe la página si el layout principal está oculto
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: calc(100vh - 70px); // Ajusta la altura de tu header
+  padding: 2rem 1rem;
+  background: linear-gradient(135deg, #6dd5ed, #2193b0); // Mismo fondo que login
+}
+
+.register-container {
+  max-width: 450px; // Un poco más ancho para más campos
+  width: 100%;
+  padding: 2.5rem 2rem;
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.15), 0 6px 10px rgba(0,0,0,0.1);
+  text-align: center;
+
+  h2 {
+    margin-bottom: 2rem;
+    font-size: 2rem;
+    color: #333;
+    font-weight: 500;
+  }
+}
+
+
+.btn-register { /* ... estilos similares a .btn-login, pero con su propio nombre de clase ... */
+  background-color: #28a745; // Un verde para registro
+  color: white;
+  padding: 12px 20px;
+  font-size: 1.05rem;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out;
+  width: 100%;
+  margin-top: 0.5rem;
+
+  &:hover {
+    background-color: darken(#28a745, 10%);
+  }
+  &:disabled { background: #ccc; cursor: not-allowed; }
+}
+.success-message {
+  margin-top: 1rem;
+  padding: 10px;
+  background-color: #d4edda;
+  border: 1px solid #c3e6cb;
+  color: #155724;
+  border-radius: 4px;
+  text-align: center;
+  font-size: 0.9rem;
+}
+.login-link-alt { /* ... similar a .register-link en login ... */
+  margin-top: 2rem;
+  text-align: center;
+  font-size: 0.9rem;
+  color: #555;
+  a { color: #007bff; font-weight: 500; &:hover { color: #0056b3; } }
+}

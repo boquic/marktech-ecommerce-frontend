@@ -1,0 +1,17 @@
+<!-- src/app/components/category-menu/category-menu.component.html -->
+<aside class="category-sidebar">
+  <h4>Categorías</h4>
+  <ul *ngIf="rootCategories$ | async as categories">
+    <li *ngIf="categories.length === 0">No hay categorías disponibles.</li>
+    <li *ngFor="let category of categories">
+      <!-- Enlace para filtrar productos por esta categoría -->
+      <a [routerLink]="['/products']" [queryParams]="{ categoryId: category.id }"
+         routerLinkActive="active-category"
+         [queryParamsHandling]="'merge'">
+        {{ category.name }}
+      </a>
+      <!-- Aquí podrías añadir lógica para mostrar subcategorías si las tienes -->
+    </li>
+  </ul>
+  <div *ngIf="!(rootCategories$ | async)">Cargando categorías...</div>
+</aside>

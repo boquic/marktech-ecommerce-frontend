@@ -1,0 +1,65 @@
+<div class="product-page-layout">
+  <!-- Menú de Categorías (Barra Lateral) -->
+  <app-category-menu class="category-menu-sidebar"></app-category-menu>
+
+  <!-- Contenedor Principal de la Lista de Productos -->
+  <div class="product-list-container">
+    <h2>{{ pageTitle }}</h2> <!-- Título dinámico seteado en el .ts -->
+
+    <!-- Contenedor para el grid de productos o mensajes de no productos/carga -->
+    <div *ngIf="products$ | async as paginatedResponse; else loadingOrError">
+
+      <!-- Verifica si hay contenido en la respuesta paginada -->
+      <div *ngIf="paginatedResponse.content && paginatedResponse.content.length > 0; else noProducts" class="products-grid">
+        <!-- Itera sobre los productos dentro de la propiedad 'content' -->
+        <div *ngFor="let product of paginatedResponse.content" class="product-card">
+          <div class="product-image-container">
+            <img *ngIf="product.imageUrl" [src]="product.imageUrl" [alt]="product.name" class="product-image" (error)="onImageError($event)">
+            <div *ngIf="!product.imageUrl" class="product-image-placeholder">Sin Imagen</div>
+          </div>
+          <div class="product-info">
+            <h3>
+              <a [routerLink]="['/products', product.id]" class="product-name-link" title="{{ product.name }}">
+                {{ product.name }}
+              </a>
+            </h3>
+            <p class="product-description">
+              {{ product.description ? (product.description | slice:0:80) : 'No hay descripción disponible.' }}
+              <span *ngIf="product.description && product.description.length > 80">...</span>
+            </p>
+            <p class="product-price">{{ product.price | currency:'USD':'symbol':'1.2-2' }}</p>
+            <div class="product-actions">
+              <button class="btn btn-details" (click)="viewDetails(product.id)">Ver Detalles</button>
+              <!-- <button class="btn btn-add-cart" (click)="addToCart(product)">Añadir al Carrito</button> -->
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Template si no hay productos que mostrar -->
+      <ng-template #noProducts>
+        <p class="empty-message">No se encontraron productos para los criterios seleccionados.</p>
+      </ng-template>
+
+      <!-- (Opcional) Controles de Paginación -->
+      <!-- Necesitarás lógica en el .ts para manejar la paginación (currentPage, totalPages, goToPage) -->
+      <!--
+      <div *ngIf="paginatedResponse.totalPages > 1" class="pagination-controls">
+        <button (click)="goToPage(currentPage - 1)" [disabled]="currentPage === 0">Anterior</button>
+        <span>Página {{ currentPage + 1 }} de {{ paginatedResponse.totalPages }}</span>
+        <button (click)="goToPage(currentPage + 1)" [disabled]="currentPage >= paginatedResponse.totalPages - 1">Siguiente</button>
+      </div>
+      -->
+
+    </div> <!-- Fin de *ngIf="products$ | async as paginatedResponse" -->
+
+    <!-- Template si está cargando o hubo un error inicial al obtener productos -->
+    <ng-template #loadingOrError>
+      <div class="loading-container">
+        <p class="loading-message">Cargando productos...</p>
+        <!-- Aquí podrías añadir un manejo de errores más específico si la subscripción falla -->
+      </div>
+    </ng-template>
+
+  </div> <!-- Fin de .product-list-container -->
+</div> <!-- Fin de .product-page-layout -->

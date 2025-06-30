@@ -1,0 +1,113 @@
+.product-list-container {
+  padding: 2rem;
+  max-width: 1400px;
+  margin: 0 auto;
+
+  h2 {
+    text-align: center;
+    font-size: 2.2rem;
+    margin-bottom: 2rem;
+    color: #faf5f5;
+  }
+
+  .products-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 20px;
+  }
+
+  .product-card {
+    background: #ffffff;
+    border: 1px solid #eaeaea;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+
+    &:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    .product-image {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+    }
+
+    .product-image-placeholder {
+      width: 100%;
+      height: 200px;
+      background-color: #f0f0f0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #aaa;
+      font-style: italic;
+    }
+
+    .product-info {
+      padding: 1.2rem;
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+
+      h3 {
+        font-size: 1.2rem;
+        color: #333;
+        margin-bottom: 0.5rem;
+        font-weight: 600;
+      }
+
+      .product-description {
+        font-size: 0.95rem;
+        color: #666;
+        margin-bottom: 1rem;
+        flex-grow: 1;
+        min-height: 60px;
+      }
+
+      .product-price {
+        font-size: 1.1rem;
+        font-weight: bold;
+        color: #007bff;
+        margin-bottom: 1rem;
+      }
+
+      .btn {
+        width: 100%;
+        margin-top: auto;
+        padding: 0.6rem;
+        border: none;
+        border-radius: 8px;
+        background-color: #6c63ff;
+        color: #fff;
+        font-weight: 600;
+        cursor: pointer;
+        transition: background-color 0.2s;
+
+        &:hover {
+          background-color: #5149f0;
+        }
+      }
+
+      .btn-details {
+        background-color: #28a745;
+
+        &:hover {
+          background-color: #218838;
+        }
+      }
+    }
+  }
+
+  .empty-message, .loading-message {
+    grid-column: 1 / -1;
+    text-align: center;
+    font-size: 1.2rem;
+    color: #777;
+    padding: 2rem;
+  }
+}

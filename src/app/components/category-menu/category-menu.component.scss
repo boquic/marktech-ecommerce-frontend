@@ -1,0 +1,42 @@
+/* src/app/components/category-menu/category-menu.component.scss */
+.category-sidebar {
+  padding: 15px;
+  background-color: #f8f9fa;
+  border-radius: 5px;
+  min-width: 200px; // O el ancho que prefieras
+
+  h4 {
+    margin-top: 0;
+    margin-bottom: 10px;
+    font-size: 1.1rem;
+    color: #333;
+  }
+
+  ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+
+    li {
+      margin-bottom: 8px;
+
+      a {
+        text-decoration: none;
+        color: #007bff;
+        display: block; // Para que ocupe todo el ancho del li
+        padding: 5px 0;
+        border-radius: 3px;
+
+        &:hover {
+          text-decoration: underline;
+          background-color: #e9ecef;
+        }
+
+        &.active-category { // Estilo para la categoría activa
+          font-weight: bold;
+          color: #0056b3;
+        }
+      }
+    }
+  }
+}

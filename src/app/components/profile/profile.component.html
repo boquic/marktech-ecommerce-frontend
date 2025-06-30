@@ -1,0 +1,16 @@
+<!-- src/app/components/profile/profile.component.html -->
+<div class="profile-container container" *ngIf="userProfile$ | async as profile; else loading">
+  <h2>Mi Perfil</h2>
+  <div *ngIf="profile" class="profile-details">
+    <p><strong>Nombre de Usuario:</strong> {{ profile.username }}</p>
+    <p><strong>Email:</strong> {{ profile.email }}</p>
+    <p><strong>Nombre:</strong> {{ profile.firstName || 'No especificado' }}</p>
+    <p><strong>Apellido:</strong> {{ profile.lastName || 'No especificado' }}</p>
+    <p><strong>Roles:</strong> {{ profile.roles.join(', ') }}</p>
+    <!-- Más detalles o botones de acción aquí -->
+    <!-- <button class="btn">Editar Perfil</button> -->
+  </div>
+</div>
+<ng-template #loading>
+  <p>Cargando perfil...</p>
+</ng-template>

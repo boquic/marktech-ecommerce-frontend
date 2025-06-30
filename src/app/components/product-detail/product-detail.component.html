@@ -1,0 +1,51 @@
+<div class="product-detail-container container" *ngIf="product$ | async as product; else loadingOrNotFound">
+    <div *ngIf="product; else notFound">
+      <div class="breadcrumb">
+        <a routerLink="/products">Productos</a> > <span>{{ product.name }}</span>
+      </div>
+      <div class="product-layout">
+        <div class="product-image-section">
+          <img *ngIf="product.imageUrl" [src]="product.imageUrl" [alt]="product.name" class="main-product-image">
+          <div *ngIf="!product.imageUrl" class="main-product-image-placeholder">Sin Imagen Disponible</div>
+          <!-- Podrías añadir una galería de imágenes aquí si tuvieras más -->
+        </div>
+        <div class="product-info-section">
+          <h1>{{ product.name }}</h1>
+          <p class="product-sku" *ngIf="product.sku">SKU: {{ product.sku }}</p>
+          <p class="product-price">{{ product.price | currency:'USD':'symbol':'1.2-2' }}</p>
+  
+          <div class="product-description-full">
+            <h3>Descripción:</h3>
+            <p>{{ product.description || 'No hay descripción disponible.' }}</p>
+          </div>
+  
+          <div class="product-attributes" *ngIf="product.attributes && objectKeys(product.attributes).length > 0">
+            <h3>Características:</h3>
+            <ul>
+              <li *ngFor="let key of objectKeys(product.attributes)">
+                <strong>{{ key }}:</strong> {{ product.attributes[key] }}
+              </li>
+            </ul>
+          </div>
+           <div class="product-actions">
+            <!-- <button class="btn btn-add-cart">Añadir al Carrito</button> -->
+            <!-- Más acciones aquí -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <ng-template #notFound>
+    <div class="container error-message-container">
+      <h2>Producto no encontrado</h2>
+      <p>El producto que buscas no existe o no está disponible.</p>
+      <a routerLink="/products" class="btn">Volver a Productos</a>
+    </div>
+  </ng-template>
+  
+  <ng-template #loadingOrNotFound>
+    <div *ngIf="!(product$ | async); else notFound" class="container loading-message-container"> <!-- Verifica si product es null o undefined -->
+      <p>Cargando detalles del producto...</p>
+    </div>
+  </ng-template>
