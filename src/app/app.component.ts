@@ -1,11 +1,14 @@
 import { Component, OnInit, OnDestroy, inject, HostListener, ElementRef } from '@angular/core'; // Añadido HostListener y ElementRef
-import { Router, RouterOutlet, RouterLink, RouterLinkActive, NavigationEnd } from '@angular/router';
+import { Router, RouterOutlet, NavigationEnd } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { Observable, of, Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
 
 import { AuthApiService } from './services/auth-api.service';
 import { UserProfile } from './models/auth.model';
+import { HeaderComponent } from './components/header/header';
+import { NotificationComponent } from './components/notification/notification';
+import { NotificationService } from './services/notification.service';
 // import { CartService } from './services/cart.service'; // Descomenta y ajusta si tienes un CartService
 
 @Component({
@@ -14,14 +17,15 @@ import { UserProfile } from './models/auth.model';
   imports: [
     CommonModule,
     RouterOutlet,
-    RouterLink,
-    RouterLinkActive
+    HeaderComponent,
+    NotificationComponent
   ],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit, OnDestroy {
   private authService = inject(AuthApiService);
+  private notificationService = inject(NotificationService);
   private router = inject(Router);
   private elementRef = inject(ElementRef); // Para el HostListener
   // private cartService = inject(CartService); // Ejemplo
@@ -29,6 +33,7 @@ export class AppComponent implements OnInit, OnDestroy {
   isAuthenticated$!: Observable<boolean>;
   currentUser$!: Observable<UserProfile | null>;
   cartItemCount$: Observable<number> = of(0); // Placeholder, inicializado con 0
+  notification$ = this.notificationService.notification$;
 
   isMobileMenuOpen = false;
   isUserDropdownOpen = false;

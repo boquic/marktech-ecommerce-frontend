@@ -1,59 +1,67 @@
-# MarktechStoreUi
+# Marktech E-Commerce Frontend
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 20.0.1.
+Frontend application for the Marktech e-commerce platform, built with Angular 17+, TailwindCSS, and RxJS/Signals.
 
-## Development server
+## Features
 
-To start a local development server, run:
+- **Authentication**: JWT-based auth with automatic token refresh and secure storage.
+- **Product Catalog**: Grid view of products with pagination and infinite scroll support.
+- **Shopping Cart**: Reactive cart management using Angular Signals, with real-time updates.
+- **Orders**: Checkout process with address forms and order history view.
+- **UI/UX**: Modern, responsive design using TailwindCSS and HotToast notifications.
 
-```bash
-ng serve
-```
+## Tech Stack
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+- **Framework**: Angular 17+ (Standalone Components)
+- **Styling**: TailwindCSS v3
+- **State Management**: Angular Signals
+- **HTTP**: Angular HttpClient with Interceptors
+- **Notifications**: @ngneat/hot-toast
 
-## Code scaffolding
+## Getting Started
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+### Prerequisites
 
-```bash
-ng generate component component-name
-```
+- Node.js (v18 or higher)
+- npm
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+### Installation
 
-```bash
-ng generate --help
-```
+1. Clone the repository.
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
 
-## Building
+### Running the Application
 
-To build the project run:
-
-```bash
-ng build
-```
-
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
+Run the development server:
 
 ```bash
-ng test
+npm start
 ```
 
-## Running end-to-end tests
+Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
 
-For end-to-end (e2e) testing, run:
+### Building
+
+Run the build command to generate the production artifacts:
 
 ```bash
-ng e2e
+npm run build
 ```
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+The build artifacts will be stored in the `dist/` directory.
 
-## Additional Resources
+## Project Structure
 
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+- `src/app/components`: UI components (Products, Cart, Checkout, Auth).
+- `src/app/services`: API services (Auth, Product, Cart, Order).
+- `src/app/models`: TypeScript interfaces for data models.
+- `src/app/interceptors`: HTTP interceptors for Auth and Error handling.
+- `src/app/guards`: Route guards for protected routes.
+
+## Configuration
+
+- **API URL**: Configure the backend API URL in `src/environments/environment.ts`.
+- **Tailwind**: Custom theme configuration in `tailwind.config.js`.

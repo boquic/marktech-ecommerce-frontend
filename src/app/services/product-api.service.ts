@@ -9,10 +9,11 @@ import { PaginatedProductResponse } from '../models/paginated-response.model'; /
   providedIn: 'root'
 })
 export class ProductApiService {
-  private apiUrl = environment.apiUrlProductService; // URL base del product-service
+  private baseUrl = `${environment.apiBaseUrl}${environment.endpoints.products}`; // API Gateway -> /api/products
   private http = inject(HttpClient);
 
   constructor() { }
+
 
   /**
    * Obtiene todos los productos de forma paginada.
@@ -21,18 +22,20 @@ export class ProductApiService {
    * @param sort Array de strings para ordenamiento, ej: ['name,asc', 'price,desc'] o un solo string 'name,asc'.
    * @returns Observable de la respuesta paginada de productos.
    */
-  getAllProducts(page: number = 0, size: number = 10, sort: string[] = ['name,asc']): Observable<PaginatedProductResponse> {
+  getProducts(page: number = 0, size: number = 10, sort: string[] = ['name,asc']): Observable<PaginatedProductResponse> {
     let params = new HttpParams()
       .set('page', page.toString())
       .set('size', size.toString());
+
 
     // Spring Boot espera múltiples parámetros 'sort' si hay múltiples criterios
     sort.forEach(sortCriteria => {
       params = params.append('sort', sortCriteria);
     });
 
-    return this.http.get<PaginatedProductResponse>(`${this.apiUrl}/products`, { params });
+    return this.http.get<PaginatedProductResponse>(`${this.baseUrl}`, { params });
   }
+
 
   /**
    * Obtiene productos filtrados por categoryId, de forma paginada.
@@ -48,37 +51,27 @@ export class ProductApiService {
       .set('page', page.toString())
       .set('size', size.toString());
 
+
     sort.forEach(sortCriteria => {
       params = params.append('sort', sortCriteria);
     });
 
-    return this.http.get<PaginatedProductResponse>(`${this.apiUrl}/products`, { params });
+    return this.http.get<PaginatedProductResponse>(`${this.baseUrl}`, { params });
   }
-
   /**
    * Obtiene un producto específico por su ID.
    * @param id El UUID del producto.
    * @returns Observable del producto.
    */
   getProductById(id: string): Observable<Product> {
-    return this.http.get<Product>(`${this.apiUrl}/products/${id}`);
+    return this.http.get<Product>(`${this.baseUrl}/${id}`);
   }
-
-  /**
-   * (FUTURO - EJEMPLO) Crea un nuevo producto.
-   * Requiere autenticación y rol ADMIN. El interceptor Auth se encargará del token.
-   * @param productData Los datos del producto a crear (debería ser un DTO específico).
-   * @returns Observable del producto creado.
-   */
-  // createProduct(productData: Omit<Product, 'id' | 'createdAt' | 'updatedAt' | 'isActive'>): Observable<Product> {
-  //   return this.http.post<Product>(`${this.apiUrl}/products`, productData);
-  // }
 
   /**
    * (FUTURO - EJEMPLO) Actualiza un producto existente.
    * Requiere autenticación y rol ADMIN.
    * @param id El UUID del producto a actualizar.
-   * @param productData Los datos a actualizar (DTO con campos opcionales).
+{{ ... }}
    * @returns Observable del producto actualizado.
    */
   // updateProduct(id: string, productData: Partial<Omit<Product, 'id' | 'createdAt' | 'updatedAt'>>): Observable<Product> {

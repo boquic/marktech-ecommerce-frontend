@@ -30,7 +30,10 @@
             <p class="product-price">{{ product.price | currency:'USD':'symbol':'1.2-2' }}</p>
             <div class="product-actions">
               <button class="btn btn-details" (click)="viewDetails(product.id)">Ver Detalles</button>
-              <!-- <button class="btn btn-add-cart" (click)="addToCart(product)">Añadir al Carrito</button> -->
+              <button class="btn btn-add-cart" (click)="addToCart(product)">
+                <i class="bi bi-cart-plus"></i>
+                Añadir al Carrito
+              </button>
             </div>
           </div>
         </div>

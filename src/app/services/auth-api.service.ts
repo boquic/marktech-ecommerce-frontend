@@ -1,7 +1,7 @@
 // src/app/services/auth-api.service.ts
 import { Injectable, inject } from '@angular/core';
 import { HttpClient, HttpResponse } from '@angular/common/http';
-import { BehaviorSubject, Observable, tap } from 'rxjs';
+import { BehaviorSubject, Observable, tap, throwError } from 'rxjs';
 import { environment } from '../../environments/environment';
 import { AuthResponse, LoginRequest, UserProfile, RegisterRequest } from '../models/auth.model';
 
@@ -9,7 +9,7 @@ import { AuthResponse, LoginRequest, UserProfile, RegisterRequest } from '../mod
   providedIn: 'root'
 })
 export class AuthApiService {
-  private apiUrl = environment.apiUrlUserService; // URL del user-service
+  private authBase = `${environment.apiBaseUrl}${environment.endpoints.auth}`; // API Gateway -> /api/auth
   private http = inject(HttpClient);
 
   // BehaviorSubject para mantener el estado del usuario actual
@@ -24,27 +24,28 @@ export class AuthApiService {
   constructor() { }
 
   login(loginRequest: LoginRequest): Observable<AuthResponse> {
-    return this.http.post<AuthResponse>(`${this.apiUrl}/auth/login`, loginRequest).pipe(
+    return this.http.post<AuthResponse>(`${this.authBase}/login`, loginRequest).pipe(
       tap(response => {
         if (response && response.accessToken && response.userProfile) {
-          localStorage.setItem('accessToken', response.accessToken);
-          localStorage.setItem('refreshToken', response.refreshToken);
-          localStorage.setItem('currentUser', JSON.stringify(response.userProfile));
+          sessionStorage.setItem('accessToken', response.accessToken);
+          if (response.refreshToken) {
+            sessionStorage.setItem('refreshToken', response.refreshToken);
+          }
+          sessionStorage.setItem('currentUser', JSON.stringify(response.userProfile));
           this.currentUserSubject.next(response.userProfile);
           this.isAuthenticatedSubject.next(true);
         }
       })
     );
   }
-     register(registerRequest: RegisterRequest): Observable<UserProfile> { // Asumimos que el backend devuelve UserProfile en 201
-    return this.http.post<UserProfile>(`${this.apiUrl}/auth/register`, registerRequest);
-    
+  register(registerRequest: RegisterRequest): Observable<UserProfile> { // Asumimos que el backend devuelve UserProfile en 201
+    return this.http.post<UserProfile>(`${this.authBase}/register`, registerRequest);
   }
 
   logout(): void {
-    localStorage.removeItem('accessToken');
-    localStorage.removeItem('refreshToken');
-    localStorage.removeItem('currentUser');
+    sessionStorage.removeItem('accessToken');
+    sessionStorage.removeItem('refreshToken');
+    sessionStorage.removeItem('currentUser');
     this.currentUserSubject.next(null);
     this.isAuthenticatedSubject.next(false);
     // Opcional: llamar a un endpoint de logout en el backend si lo tienes
@@ -56,17 +57,33 @@ export class AuthApiService {
   }
 
   public get accessToken(): string | null {
-    return localStorage.getItem('accessToken');
+    return sessionStorage.getItem('accessToken');
   }
 
   private getStoredUser(): UserProfile | null {
-    const user = localStorage.getItem('currentUser');
+    const user = sessionStorage.getItem('currentUser');
     return user ? JSON.parse(user) : null;
   }
 
   private hasToken(): boolean {
-    return !!localStorage.getItem('accessToken');
+    return !!sessionStorage.getItem('accessToken');
   }
 
-  // Aquí podrías añadir refreshToken(), registerUser(), etc. más adelante
+  refreshToken(): Observable<any> {
+    const refreshToken = sessionStorage.getItem('refreshToken');
+    if (!refreshToken) {
+      return throwError(() => new Error('No refresh token available'));
+    }
+
+    return this.http.post<any>(`${this.authBase}/refresh-token`, { refreshToken }).pipe(
+      tap(response => {
+        if (response && response.accessToken) {
+          sessionStorage.setItem('accessToken', response.accessToken);
+          if (response.refreshToken) {
+            sessionStorage.setItem('refreshToken', response.refreshToken);
+          }
+        }
+      })
+    );
+  }
 }

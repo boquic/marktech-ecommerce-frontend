@@ -1,61 +1,120 @@
-<div class="login-wrapper">
+<!-- src/app/components/login/login.component.html -->
+<div class="login-container">
   <div class="login-card">
-    <h2>Iniciar sesión</h2>
-    
-    <img src="assets/images/marktech-logo.svg" alt="Marktech Logo" class="login-logo">
+    <!-- Header del login -->
+    <div class="login-header">
+      <img src="assets/images/marktech-logo.svg" alt="Marktech Logo" class="login-logo">
+      <h1 class="login-title">¡Bienvenido de vuelta!</h1>
+      <p class="login-subtitle">Inicia sesión para continuar con tu experiencia de compra</p>
+    </div>
 
-    <h3 class="welcome-text">¡Bienvenido a Marktech!</h3>
+    <!-- Mensaje de error -->
+    <div *ngIf="errorMessage" class="alert alert-danger" role="alert" aria-live="assertive">
+      <i class="bi bi-exclamation-triangle"></i>
+      {{ errorMessage }}
+    </div>
 
-    
-    <p class="welcome-message">
-      Ingresa tu usuario y contraseña para continuar
-    </p>
+    <!-- Loading state -->
+    <div *ngIf="isLoading" class="loading-container" aria-live="polite">
+      <div class="spinner"></div>
+      <p>Iniciando sesión...</p>
+    </div>
 
-    <form (ngSubmit)="onSubmit()" class="login-form">
+    <!-- Formulario de login -->
+    <form [formGroup]="form" (ngSubmit)="onSubmit()" class="login-form" *ngIf="!isLoading" novalidate>
       <div class="form-group">
+        <label for="usernameOrEmail" class="form-label">
+          <i class="bi bi-person"></i>
+          Usuario o Email
+        </label>
         <input
           type="text"
-          [(ngModel)]="loginData.usernameOrEmail"
-          name="usernameOrEmail"
-          placeholder="Usuario o Email*"
-          required />
+          id="usernameOrEmail"
+          formControlName="usernameOrEmail"
+          placeholder="Ingresa tu usuario o email"
+          class="form-input"
+          [class.error]="usernameOrEmail?.invalid && (usernameOrEmail?.dirty || usernameOrEmail?.touched)"
+          [attr.aria-invalid]="usernameOrEmail?.invalid ? true : null"
+          [attr.aria-describedby]="usernameOrEmail?.invalid ? 'username-error' : null" />
+        <div
+          *ngIf="usernameOrEmail?.invalid && (usernameOrEmail?.dirty || usernameOrEmail?.touched)"
+          id="username-error"
+          class="error-message">
+          <span *ngIf="usernameOrEmail?.errors?.['required']">Usuario o email es requerido.</span>
+          <span *ngIf="usernameOrEmail?.errors?.['minlength']">Debe tener al menos 3 caracteres.</span>
+        </div>
       </div>
 
-      <div class="form-group password-group">
-        <label for="password">Contraseña:</label>
+      <div class="form-group">
+        <label for="password" class="form-label">
+          <i class="bi bi-lock"></i>
+          Contraseña
+        </label>
         <div class="password-wrapper">
-          <input [type]="showPassword ? 'text' : 'password'"
-                 id="password"
-                 name="password"
-                 [(ngModel)]="loginData.password"
-                 required
-                 #passwordInput="ngModel" />
-          <button type="button" class="toggle-password" (click)="togglePasswordVisibility()" aria-label="Mostrar contraseña">
+          <input 
+            [type]="showPassword ? 'text' : 'password'"
+            id="password"
+            formControlName="password"
+            placeholder="Ingresa tu contraseña"
+            class="form-input"
+            [class.error]="password?.invalid && (password?.dirty || password?.touched)"
+            [attr.aria-invalid]="password?.invalid ? true : null"
+            [attr.aria-describedby]="password?.invalid ? 'password-error' : null" />
+          <button 
+            type="button" 
+            class="toggle-password" 
+            (click)="togglePasswordVisibility()" 
+            [attr.aria-label]="showPassword ? 'Ocultar contraseña' : 'Mostrar contraseña'">
             <i class="bi" [ngClass]="showPassword ? 'bi-eye-slash' : 'bi-eye'"></i>
           </button>
         </div>
-        <div *ngIf="passwordInput.invalid && (passwordInput.dirty || passwordInput.touched)" class="error-message">
-          Contraseña es requerida.
+        <div
+          *ngIf="password?.invalid && (password?.dirty || password?.touched)"
+          id="password-error"
+          class="error-message">
+          <span *ngIf="password?.errors?.['required']">La contraseña es requerida.</span>
+          <span *ngIf="password?.errors?.['minlength']">Debe tener al menos 6 caracteres.</span>
         </div>
       </div>
-      
-      
 
-      <div class="forgot-password">
-        <a routerLink="/forgot-password">¿Olvidaste tu contraseña?</a>
+      <div class="form-options">
+        <label class="checkbox-container">
+          <input type="checkbox" formControlName="rememberMe" name="rememberMe">
+          <span class="checkmark"></span>
+          Recordarme
+        </label>
+        
+        <a href="#" class="forgot-password-link">
+          ¿Olvidaste tu contraseña?
+        </a>
       </div>
-      
 
-      <button class="btn btn-primary" type="submit">Iniciar sesión</button>
+      <button 
+        type="submit" 
+        class="btn btn-primary btn-login"
+        [disabled]="isLoading || form.invalid">
+        <i class="bi bi-box-arrow-in-right"></i>
+        {{ isLoading ? 'Iniciando...' : 'Iniciar Sesión' }}
+      </button>
 
-      <button class="btn btn-google" type="button">
-        <img src="assets/images/google-icon.png" alt="Google" /> Iniciar sesión con Google
+      <div class="divider">
+        <span>o</span>
+      </div>
+
+      <button class="btn btn-google" type="button" (click)="loginWithGoogle()">
+        <img src="assets/images/google-icon.png" alt="Google" />
+        Continuar con Google
       </button>
     </form>
-
-    <p class="register-text">
-      ¿Eres nuevo en MarkTech?<br />
-      <a routerLink="/register" class="register-link">Crea tu cuenta</a>
-    </p>
+    <!-- Footer del login -->
+    <div class="login-footer">
+      <p class="register-text">
+        ¿No tienes una cuenta?
+        <a routerLink="/register" class="register-link">
+          <i class="bi bi-person-plus"></i>
+          Regístrate aquí
+        </a>
+      </p>
+    </div>
   </div>
 </div>

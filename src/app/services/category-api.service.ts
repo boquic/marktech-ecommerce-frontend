@@ -9,25 +9,25 @@ import { Category } from '../models/category.model'; // Necesitarás crear este 
   providedIn: 'root'
 })
 export class CategoryApiService {
-  private apiUrl = environment.apiUrlCategoryService; // URL del category-service
+  private baseUrl = `${environment.apiBaseUrl}${environment.endpoints.categories}`; // API Gateway -> /api/categories
   private http = inject(HttpClient);
 
   constructor() { }
 
   // Obtener todas las categorías raíz (parentId no especificado o null)
   getRootCategories(): Observable<Category[]> {
-    // Asumiendo que GET /api/v1/categories sin parentId devuelve las raíz
-    return this.http.get<Category[]>(`${this.apiUrl}/categories`);
+    // GET /api/categories
+    return this.http.get<Category[]>(`${this.baseUrl}`);
   }
 
   // Obtener subcategorías de una categoría padre
   getSubcategories(parentId: string): Observable<Category[]> {
     const params = new HttpParams().set('parentId', parentId);
-    return this.http.get<Category[]>(`${this.apiUrl}/categories`, { params });
+    return this.http.get<Category[]>(`${this.baseUrl}`, { params });
   }
 
   // Obtener una categoría por su ID (si lo necesitas)
   getCategoryById(id: string): Observable<Category> {
-    return this.http.get<Category>(`${this.apiUrl}/categories/${id}`);
+    return this.http.get<Category>(`${this.baseUrl}/${id}`);
   }
 }

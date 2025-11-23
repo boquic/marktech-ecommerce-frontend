@@ -40,3 +40,11 @@ testem.log
 # System files
 .DS_Store
 Thumbs.db
+
+# Environment files (if they contain secrets)
+# Uncomment if you have sensitive data in environment files
+# src/environments/environment.ts
+# src/environments/environment.development.ts
+
+# Test artifacts
+TEST_STATUS.md
